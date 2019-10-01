@@ -2,10 +2,10 @@ package pl.puchalski.deckofcards.main
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.puchalski.deckofcards.R
+import pl.puchalski.deckofcards.game.GameActivity
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 		btn_play.setOnClickListener {
 			val selectedPosition = spinner_deck_count.selectedItemPosition
 			val deckCount = options[selectedPosition]
-			Toast.makeText(this, "Wybrano $deckCount", Toast.LENGTH_SHORT).show()
+			GameActivity.startGame(this, deckCount)
 		}
 	}
 }
