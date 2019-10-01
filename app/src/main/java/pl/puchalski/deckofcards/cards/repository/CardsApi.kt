@@ -11,7 +11,7 @@ interface CardsApi {
 	@GET("new/shuffle/")
 	fun shuffleDeck(@Query("deck_count") deckCount: Int): Observable<Deck>
 
-	@GET("{deckId}/draw")
+	@GET("{deckId}/draw/")
 	fun drawCards(
 		@Path("deckId") deckId: String,
 		@Query("count") cardCount: Int
