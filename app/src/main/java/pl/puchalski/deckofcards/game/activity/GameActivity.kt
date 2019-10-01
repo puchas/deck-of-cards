@@ -24,6 +24,8 @@ class GameActivity : AppCompatActivity() {
 		setContentView(R.layout.activity_game)
 		setupRecyclerView()
 		setupCardsLeftObserver()
+		setupCardsObserver()
+		setupDrawCards()
 		savedInstanceState ?: viewModel.loadDeck(restoreDeckCount())
 	}
 
@@ -48,12 +50,23 @@ class GameActivity : AppCompatActivity() {
 		}
 	}
 
-	private fun setupCardsLeftObserver(){
+	private fun setupCardsLeftObserver() {
 		viewModel.cardsLeft.observe(this, Observer {
 			tv_cards_left.text = "Pozostało kart: $it"
 		})
 	}
 
+	private fun setupCardsObserver() {
+		viewModel.cards.observe(this, Observer {
+			adapter.updateCards(it)
+		})
+	}
+
+	private fun setupDrawCards(){
+		btn_draw.setOnClickListener {
+			viewModel.drawCards()
+		}
+	}
 	companion object {
 		private const val DECK_COUNT = "DECK_COUNT"
 		fun startGame(context: Context, deckCount: Int) {
