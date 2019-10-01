@@ -5,20 +5,26 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_game.*
+import org.koin.android.viewmodel.ext.android.viewModel
 import pl.puchalski.deckofcards.R
 import pl.puchalski.deckofcards.game.adapter.CardsAdapter
+import pl.puchalski.deckofcards.game.viewmodel.GameViewModel
 
 class GameActivity : AppCompatActivity() {
 
 	private val adapter by lazy { CardsAdapter() }
+	private val viewModel: GameViewModel by viewModel()
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_game)
 		setupRecyclerView()
+		setupCardsLeftObserver()
+		savedInstanceState ?: viewModel.loadDeck(restoreDeckCount())
 	}
 
 	private fun restoreDeckCount(): Int {
@@ -40,6 +46,12 @@ class GameActivity : AppCompatActivity() {
 				GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false)
 			}
 		}
+	}
+
+	private fun setupCardsLeftObserver(){
+		viewModel.cardsLeft.observe(this, Observer {
+			tv_cards_left.text = "Pozostało kart: $it"
+		})
 	}
 
 	companion object {
