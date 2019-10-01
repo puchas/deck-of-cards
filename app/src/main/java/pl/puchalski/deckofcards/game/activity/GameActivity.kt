@@ -26,6 +26,7 @@ class GameActivity : AppCompatActivity() {
 		setupCardsLeftObserver()
 		setupCardsObserver()
 		setupDrawCards()
+		setupShuffle()
 		savedInstanceState ?: viewModel.loadDeck(restoreDeckCount())
 	}
 
@@ -62,11 +63,18 @@ class GameActivity : AppCompatActivity() {
 		})
 	}
 
-	private fun setupDrawCards(){
+	private fun setupDrawCards() {
 		btn_draw.setOnClickListener {
 			viewModel.drawCards()
 		}
 	}
+
+	private fun setupShuffle() {
+		btn_shuffle.setOnClickListener {
+			viewModel.loadDeck(restoreDeckCount())
+		}
+	}
+
 	companion object {
 		private const val DECK_COUNT = "DECK_COUNT"
 		fun startGame(context: Context, deckCount: Int) {
