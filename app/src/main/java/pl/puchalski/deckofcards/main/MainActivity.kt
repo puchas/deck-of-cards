@@ -1,4 +1,4 @@
-package pl.puchalski.deckofcards.main.activity
+package pl.puchalski.deckofcards.main
 
 import android.os.Bundle
 import android.widget.ArrayAdapter
