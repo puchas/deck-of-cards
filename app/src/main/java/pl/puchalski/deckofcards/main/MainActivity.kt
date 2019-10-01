@@ -5,7 +5,7 @@ import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.puchalski.deckofcards.R
-import pl.puchalski.deckofcards.game.GameActivity
+import pl.puchalski.deckofcards.game.activity.GameActivity
 
 class MainActivity : AppCompatActivity() {
 

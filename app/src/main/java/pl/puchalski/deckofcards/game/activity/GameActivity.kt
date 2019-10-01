@@ -1,4 +1,4 @@
-package pl.puchalski.deckofcards.game
+package pl.puchalski.deckofcards.game.activity
 
 import android.content.Context
 import android.content.Intent
