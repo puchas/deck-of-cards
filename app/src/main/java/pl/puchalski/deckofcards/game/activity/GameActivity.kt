@@ -1,9 +1,11 @@
 package pl.puchalski.deckofcards.game.activity
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -25,6 +27,7 @@ class GameActivity : AppCompatActivity() {
 		setupRecyclerView()
 		setupCardsLeftObserver()
 		setupCardsObserver()
+		setupFinishGameObserver()
 		setupDrawCards()
 		setupShuffle()
 		savedInstanceState ?: viewModel.loadDeck(restoreDeckCount())
@@ -61,6 +64,42 @@ class GameActivity : AppCompatActivity() {
 		viewModel.cards.observe(this, Observer {
 			adapter.updateCards(it)
 		})
+	}
+
+	private fun setupFinishGameObserver() {
+		viewModel.finishGameEvent.observe(this, Observer {
+			if (it is GameViewModel.FinishGameEvent.Win) {
+				onWin(it.winScenario)
+			} else {
+				onNoCardsLeft()
+			}
+		})
+	}
+
+	private fun onNoCardsLeft() {
+		showFinishGameDialog(false, "Skończyły się karty")
+	}
+
+	private fun onWin(winScenario: GameViewModel.WinScenario) {
+		val message = when (winScenario) {
+			GameViewModel.WinScenario.Twins -> "Trafiłeś bliźniaki"
+			GameViewModel.WinScenario.Stairs -> "Trafiłeś schodki"
+			GameViewModel.WinScenario.Figures -> "Trafiłeś figury"
+			GameViewModel.WinScenario.Color -> "Trafiłeś kolor"
+		}
+		showFinishGameDialog(true, message)
+	}
+
+	private fun showFinishGameDialog(userWin: Boolean, message: String) {
+		AlertDialog.Builder(this).create().apply {
+			title = if (userWin) "Wygrana" else "Przegrana"
+			setMessage(message)
+			setButton(Dialog.BUTTON_POSITIVE, "OK") { _, _ ->
+				this@GameActivity.finish()
+			}
+			setCancelable(false)
+			show()
+		}
 	}
 
 	private fun setupDrawCards() {
