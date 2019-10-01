@@ -13,6 +13,6 @@ interface CardsApi {
 	@GET("{deckId}/draw")
 	fun drawCards(
 		@Path("deckId") deckId: String,
-		@Query("count") cardsCount: Int
+		@Query("count") cardCount: Int
 	): CardsContainer
 }
